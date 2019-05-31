@@ -1,15 +1,14 @@
 import React from 'react';
 import './App.css';
 
-
-function App() {
+function Intern() {
     let input;
     let pattern;
     let fileReader;
     let fileReaderPattern;
 
     const handleFileRead = (e) => {
-        input = fileReader.result.split("\n");
+        input = fileReader.result;
 
     }
 
@@ -19,7 +18,7 @@ function App() {
         fileReader.readAsText(file)
     }
     const handleFileFromPattern = (e) => {
-        pattern = fileReaderPattern.result.split("\n");
+        pattern = fileReaderPattern.result;
     }
 
     const handleFileChosenFromPattern = (file) => {
@@ -27,24 +26,20 @@ function App() {
         fileReaderPattern.onloadend = handleFileFromPattern;
         fileReaderPattern.readAsText(file)
     };
-
-    const required_option = (input, pattern) => {
+    const required_option = (input, pattern)=> {
         if (input === pattern) {
-            return input
-        }
-        else {
-            return null
+             return input
         }
 
     }
     const optional_2 = (input, pattern) => {
         let result = input.match(pattern)
-        if (input>=pattern && result) {
+        if (input >= pattern && result) {
             return input
 
         } else {
             let re = pattern.match(input);
-            if (pattern>=input && re ) {
+            if (pattern >= input && re) {
                 return input
             }
         }
@@ -61,36 +56,44 @@ function App() {
                 i++;
             j++;
         }
-      if (result.length === 1){
-          return input
-      }
+        if (result.length === 1) {
+            return input
+        }
     };
-
-
-    console.log(optional_3("linep 3 ", "line 3"))
-    let testInput = ["Hello. This is line 1 of the text.", "and this is another.", "line 3 here", "the end"]
-    let testPattern = ["the end", "matches", "line 3", "and this is anoother."];
-
     const result = () => {
-        console.log(input);
-        console.log(pattern)
-        let outputOfFirst=[]
-        let outputOfSecond = [];
-        let outputOfThird = [];
-        for (let i = 0; i < input.length; i++) {
-            for (let j = 0; j < pattern.length; j++) {
-                outputOfFirst.push(required_option(input[i], pattern[j]));
-                outputOfSecond.push(optional_2(input[i],pattern[j]));
-                outputOfThird.push(optional_3(input[i],pattern[j]));
-
+        const inputResult = input.split("\n");
+        console.log(inputResult);
+        const patternResult = pattern.split("\n");
+        console.log(patternResult);
+        let array1 = [];
+        let array2 = [];
+        let array3=[]
+        for (let i = 0; i < inputResult.length; i++) {
+            for (let j = 0; j < patternResult.length; j++) {
+                let required= required_option(inputResult[i], patternResult[j]);
+                if (required!=null){
+                    array1.push(required)
+                }
+                let optional = optional_2(inputResult[i], patternResult[j]);
+                if (optional!=null && inputResult[i]!=="" && patternResult[j]!=="" ){
+                    array2.push(optional)
+                }
+                let option3 = optional_3(inputResult[i], patternResult[j]);
+                if (option3!=null){
+                    array3.push(option3)
+                }
             }
         }
-        console.log("Mode output 1: " + outputOfFirst);
-        console.log("Mode output 2: " + outputOfSecond);
-        console.log("Mode output 3: " + outputOfThird);
-    }
+
+        {
+        }
+        console.log("Mode 1 outputs: " + array1);
+        console.log("Mode 2 outputs: " + array2);
+        console.log("Mode 3 outputs: " + array3)
+    };
     return (
         <div>
+            <label for="file">kkm</label>
             <input type="file"
                    id="file"
                    className='input-file'
@@ -106,4 +109,4 @@ function App() {
     )
 }
 
-export default App;
+export default Intern;
