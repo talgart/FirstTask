@@ -83,7 +83,6 @@ class FirstTask extends Component {
             fileReaderPattern.onloadend = handleFileFromPattern;
             fileReaderPattern.readAsText(file)
         };
-        console.log(optional_3("the end", "the end"))
         const result = () => {
             const inputResult = input.split("\n");
             console.log(inputResult);
