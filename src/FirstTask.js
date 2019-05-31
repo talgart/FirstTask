@@ -4,11 +4,11 @@ import './App.css';
 class FirstTask extends Component {
 
     required_option = (input, pattern) => {
-            if (input === pattern) {
-                return input
-            }
-
+        if (input === pattern) {
+            return input
         }
+
+    }
     optional_2 = (input, pattern) => {
         let result = input.match(pattern);
         if (input >= pattern && result) {
@@ -22,48 +22,49 @@ class FirstTask extends Component {
         }
     }
     optional_3 = (input, pattern) => {
-        let m = input.length;
-        let n = pattern.length;
-        let count = 0;
-        let i = 0;
-        let j = 0;
-        if (Math.abs(m - n) > 1) {
+        let inputLength = input.length
+        let patternLength= pattern.length
+        if (Math.abs(inputLength-patternLength)>1){
             return false
         }
-        while (i < m && j < n) {
-            if (input[i] != pattern[j]) {
-                if (count == 1) {
+        let count = 0
+        let i = 0
+        let j =0
+        while (i<inputLength && j <patternLength){
+            if (inputLength[i] != patternLength[j]){
+                if (count == 1){
                     return false
-                    if (m > n)
-                        i += 1
-                    if (m < n)
-                        j += 1
-                    else
-                        i++;
+                }
+                if (inputLength>patternLength){
+                    i++
+                }
+                if (inputLength<patternLength){
                     j++
 
-
-                    count += 1
-
-                } else
+                }
+                else {
                     i++;
-                j++;
+                    j++
+                }
+                count++
             }
-            if (i < m || j < n)
-                count += 1
-
-            if (count == 1) {
-                return input
+            else {
+                i++;
+                j++
             }
-
 
         }
+        if (i < inputLength || j<patternLength){
+            count++
+        }
+       return count
     };
+
 
 
     render() {
         let {required_option, optional_2, optional_3} = this;
-        let input,pattern, fileReaderInput,fileReaderPattern;
+        let input, pattern, fileReaderInput, fileReaderPattern;
         const handleFileFromInput = (e) => {
             input = fileReaderInput.result;
         };
@@ -82,27 +83,28 @@ class FirstTask extends Component {
             fileReaderPattern.onloadend = handleFileFromPattern;
             fileReaderPattern.readAsText(file)
         };
+        console.log(optional_3("the end", "the end"))
         const result = () => {
             const inputResult = input.split("\n");
             console.log(inputResult);
             const patternResult = pattern.split("\n");
             console.log(patternResult);
-            let array1 = [];
-            let array2 = [];
-            let array3 = [];
+            let firstModeOutput=[];
+            let secondModeOutput = [];
+            let thirdModeOutput = [];
             for (let i = 0; i < inputResult.length; i++) {
                 for (let j = 0; j < patternResult.length; j++) {
                     let required = required_option(inputResult[i].trim(), patternResult[j].trim());
                     if (required != null) {
-                        array1.push(required)
+                        firstModeOutput.push(required)
                     }
                     let optional = optional_2(inputResult[i].trim(), patternResult[j].trim());
                     if (optional != null && inputResult[i] !== "" && patternResult[j] !== "") {
-                        array2.push(optional)
+                        secondModeOutput.push(optional)
                     }
                     let option3 = optional_3(inputResult[i].trim(), patternResult[j].trim())
-                    if (option3) {
-                        array3.push(option3)
+                    if (option3 && option3<=1) {
+                        thirdModeOutput.push(inputResult[i])
                     }
 
                 }
@@ -110,26 +112,32 @@ class FirstTask extends Component {
 
             {
             }
-            console.log("Mode 1 outputs: " + array1);
-            console.log("Mode 2 outputs: " + array2);
-            console.log("Mode 3 outputs: " + array3)
+            console.log("Mode 1 outputs: " +firstModeOutput);
+            console.log("Mode 2 outputs: " + secondModeOutput);
+            console.log("Mode 3 outputs: " + thirdModeOutput)
         };
 
 
         return (
 
             <div>
+                <div>
+                <strong className="ml-4">upload here input.txt file</strong>
                 <input type="file"
                        id="file"
                        className='input-file'
                        accept='.txt'
                        onChange={e => handleFileChosenFromInput(e.target.files[0])}/>
+                </div>
+                <div className='mt-3'>
+               <strong className="ml-4">upload here pattern.txt file</strong>
                 <input type="file"
                        id="file"
                        className='input-file'
                        accept='.txt'
                        onChange={e => handleFileChosenFromPattern(e.target.files[0])}/>
-                <button onClick={result}> Show result</button>
+                       </div>
+                <button className="ml-4" onClick={result}> Show result</button>
             </div>
         )
     }

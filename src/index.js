@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import FirstTask from './Intern';
+import FirstTask from './FirstTask';
 import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(<FirstTask />, document.getElementById('root'));
