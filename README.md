@@ -15,3 +15,7 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 Input and pattern files are already here(in src directory) you should upload them to see the result
 Output(result will be displayed in the console)
+
+Due to unforeseen circumstances, I had to upload on github
+
+I have already  uploaded in src directory  the "Attachment failed" error  via  gmail
